@@ -1,0 +1,22 @@
+version: "3.9"
+services:
+  galaxy:
+    image: ghcr.io/uomresearchit/galaxy:latest
+    restart: unless-stopped
+    container_name: omniverse-galaxy
+    ports:
+      - 8080:8080
+    volumes:
+      - omni-galaxy-storage:/galaxy/server/
+      - ./galaxy-tools:/galaxy/server/tools/mcri
+      - ./galaxy-config/tool_conf.xml:/galaxy/server/config/tool_conf.xml.sample
+      - ./galaxy-config/job_conf.xml:/galaxy/server/config/job_conf.xml.sample_basic
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      
+  # API call example
+  # image: ghcr.io/uomresearchit/mcri-bioblend:latest
+  # python home/helpers/call-workflow.py --api-key 293bea45e5079a37553433e4170db8f9 --server http://mcri-galaxy:8080 --sensor arisense" 
+      
+volumes:
+  omni-galaxy-storage:
+
